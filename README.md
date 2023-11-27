@@ -101,7 +101,8 @@ The Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm is a pol
 
 We first recall the Gram-Schmidt orthogonalization process
 
-__Definition 1:__ Given $n$ linearly independent vectors $b_1, b_2,...,b_n \in \mathbb{R}^n$, the __Gram-Schmidt orthogonalization__ of $b_1, b_2,...,b_n$ is defined by $b_i^* = b_i - \sum_{j=1}^{i-1}\mu_{i, j}b_j^* $, where $ \mu_{i, j} = \frac{\langle {b_i, b_j^*} \rangle}{ \langle {b_ j^*, b_j^*} \rangle} $
+__Definition 1:__ Given $n$ linearly independent vectors $b_1, b_2,...,b_n \in \mathbb{R}^n$, the __Gram-Schmidt orthogonalization__ of $b_1, b_2,...,b_n$ is defined by $b_i^* = b_i - \sum_{j=1}^{i-1}\mu_{i, j}b_j^* $, 
+where $\mu_{i, j} = \frac{\langle{b_i, b_j^*}\rangle}{\langle{b_ j^*, b_j^*}\rangle}$
 
 __Definition 2:__ A basis $B = {b_1, b_2,...,b_n} \in \mathbb{R}^n$ is a δ-__LLL Reduced Basis__ if the following holds:
 
