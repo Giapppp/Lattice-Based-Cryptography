@@ -29,15 +29,16 @@ The most well known computational problems on lattices are the following:
 
 - __Shortest Vector Problem (SVP)__: Given a lattice basis $\bf{B}$, find the shortest nonzero vector in $\mathcal{L}(\bf{B})$
 
-![](Screenshot%202023-11-27%20134112.png)
+![](https://github.com/Giapppp/Post-Quantum-Cryptography/blob/main/images/Screenshot%202023-11-27%20134112.png)
 
 - __Closest Vector Problem (CVP)__: Given a lattice basis $\bf{B}$ and a target vector $\bf{t}$ (not necessarily in the lattice), find the lattice point $\bf{v} \in \mathcal{L}(\bf{B})$ closest to $\bf{t}$
 
-![](Screenshot%202023-11-27%20134130.png)
+![](https://github.com/Giapppp/Post-Quantum-Cryptography/blob/main/images/Screenshot%202023-11-27%20134130.png)
 
 - __Shortest Independent Vectors Problem (SIVP)__: Given a lattice basis $\bf{B} \in \mathbb{R}^{n \times n}$, find $n$ linearity independent lattice vectors $\bf{S} = [s_1, s_2,...,s_n]$ (where $s_i \in \mathcal{L}(\bf{B})$ for all $i$) so that $max||v_i|| \le max||b_i||$, where $||x|| = \sqrt{x_1^2 + x_2^2 +...+ x_n^2}$
 
-![](https://www.researchgate.net/publication/340108818/figure/fig1/AS:872521280811015@1585036692903/A-good-basis-green-has-short-and-nearly-orthogonal-vectors-while-a-bad-basis-red-is.png)
+![](https://github.com/Giapppp/Post-Quantum-Cryptography/blob/main/images/A-good-basis-green-has-short-and-nearly-orthogonal-vectors-while-a-bad-basis-red-is.png)
+
 ### Learning With Error (LWE) 
 
 We will give an introduction of LWE:
@@ -76,7 +77,7 @@ __Encryption:__ In order to encrypt a bit we choose a random set $S$ uniformly a
 
 __Decryption:__ The decryption of a pair $(\bf{a}, b)$ is $0$ if $b-\langle{\bf{a}, s}$ is closer to 0 than to $[\frac{p}{2}]$ modulo $p$. Otherwise, the decryption is $1$
 
-![](Screenshot%202023-11-27%20134636.png)
+![](https://github.com/Giapppp/Post-Quantum-Cryptography/blob/main/images/Screenshot%202023-11-27%20134636.png)
 
 #### Cryptanalysis Tools
 
