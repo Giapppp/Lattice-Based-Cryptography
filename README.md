@@ -43,13 +43,13 @@ The most well known computational problems on lattices are the following:
 
 We will give an introduction of LWE:
 
-__Definition:__ Let $n, q$ be positive integers, $\mathcal{X}$ be a probability distribution on $\mathbb{Z}$ and $\bf{s}$ be a uniformly random vector in $\mathbb{Z}_q^n$. We denote by $L_{s, \mathcal{X}}$ the probability distribution on $\mathbb{Z}_q^n \times \mathbb{Z}_q$ obtained by choosing $\bf{a} \in \mathbb{Z}_q^n$ uniformly at random, choosing $\bf{e} \in \mathbb{Z}$ according to $\mathcal{X}$ and considering it in $\mathbb{Z}_q$, and returning $(\bf{a}, c) = (\bf{a}, \bf{<a, s>} + e) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ sampled according to $L_{s, \mathcal{X}}$
+__Definition:__ Let $n, q$ be positive integers, $\mathcal{X}$ be a probability distribution on $\mathbb{Z}$ and $\bf{s}$ be a uniformly random vector in $\mathbb{Z}_ q^n$. We denote by $L_{s, \mathcal{X}}$ the probability distribution on $\mathbb{Z}_q^n \times \mathbb{Z}_q$ obtained by choosing $\bf{a} \in \mathbb{Z}_q^n$ uniformly at random, choosing $\bf{e} \in \mathbb{Z}$ according to $\mathcal{X}$ and considering it in $\mathbb{Z}_q$, and returning $(\bf{a}, c) = (\bf{a}, \bf{<a, s>} + e) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ sampled according to $L _{s, \mathcal{X}}$
 
 We have two computational problems in LWE:
 
-__Decision LWE:__ The problem of deciding whether pairs $(\bf{a}, c) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ are sampled according to $L_{s, \mathcal{X}}$ or the uniform distribution on $\mathbb{Z}_q^n \times \mathbb{Z}_q$
+__Decision LWE:__ The problem of deciding whether pairs $(\bf{a}, c) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ are sampled according to $L _{s, \mathcal{X}}$ or the uniform distribution on $\mathbb{Z}_q^n \times \mathbb{Z}_q$
 
-__Search LWE:__ The problem of recovering $\bf{s}$ from pairs $(\bf{a}, c) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ sampled according to $L_{s, \mathcal{X}}$
+__Search LWE:__ The problem of recovering $\bf{s}$ from pairs $(\bf{a}, c) \in \mathbb{Z}_q^n \times \mathbb{Z}_q$ sampled according to $L _{s, \mathcal{X}}$
 
 In this project, we will implicitly assume that $\mathcal{X}$ is centered, i.e. has expectation 0. We may also write LWE in matrix form as $B * s + e = c \mod q$
 
@@ -71,9 +71,9 @@ __Parameter__: We let $n$ be the security parameter of the cryptosystem. The cry
 
 __Private Key:__ Choose $\bf{s} \in \mathbb{Z}_p^n$ uniformly at random. The private key is $\bf{s}$
 
-__Public Key:__ For $i = 1,...m$, choose $m$ vectors $a_1, a_2,...,a_m \in \mathbb{Z}_p^n$ independently from the uniform distribution. Also choose elements $e_1, e_2,...,e_m \in \mathbb{Z}_p$ independently according to $\mathcal{X}$. The public key is given by $(\bf{a}_i, b_i)^m_{i = 1}$ where $b_i = <\bf{a_i}, s> + e_i$
+__Public Key:__ For $i = 1,...m$, choose $m$ vectors $a_1, a_2,...,a_m \in \mathbb{Z}_p^n$ independently from the uniform distribution. Also choose elements $e_1, e_2,...,e_m \in \mathbb{Z}_p$ independently according to $\mathcal{X}$. The public key is given by $(\bf{a}_i, b_i)^m _{i = 1}$ where $b_i = <\bf{a_i}, s> + e_i$
 
-__Encryption:__ In order to encrypt a bit we choose a random set $S$ uniformly among all $2^m$ subsets of $[m]$. The encryption is $(\sum_{i \in S}\bf{a}_i, \sum_{i \in S}b_i)$ if the bit is $0$ and $(\sum_{i \in S}\bf{a}_i, [\frac{p}{2}] + \sum_{i \in S}b_i)$ if the bit is $1$
+__Encryption:__ In order to encrypt a bit we choose a random set $S$ uniformly among all $2^m$ subsets of $[m]$. The encryption is $(\sum_{i \in S}\bf{a}_i, \sum _{i \in S}b _i)$ if the bit is $0$ and $(\sum _{i \in S}\bf{a} _i, [\frac{p}{2}] + \sum _{i \in S}b_i)$ if the bit is $1$
 
 __Decryption:__ The decryption of a pair $(\bf{a}, b)$ is $0$ if $b-\langle{\bf{a}, s}$ is closer to 0 than to $[\frac{p}{2}]$ modulo $p$. Otherwise, the decryption is $1$
 
@@ -101,12 +101,12 @@ The Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm is a pol
 
 We first recall the Gram-Schmidt orthogonalization process
 
-__Definition 1:__ Given $n$ linearly independent vectors $b_1, b_2,...,b_n \in \mathbb{R}^n$, the __Gram-Schmidt orthogonalization__ of $b_1, b_2,...,b_n$ is defined by $b_i^* = b_i - \sum_{j=1}^{i-1}\mu_{i, j}b_j^*$, where $\mu_{i, j} = \frac{\langle{b_i, b_j^*}\rangle}{\langle{b_j^*, b_j^*}\rangle}$
+__Definition 1:__ Given $n$ linearly independent vectors $b_1, b_2,...,b_n \in \mathbb{R}^n$, the __Gram-Schmidt orthogonalization__ of $b_1, b_2,...,b_n$ is defined by $b_i^* = b_i - \sum_{j=1}^{i-1}\mu_{i, j}b_j^* $, where $ \mu_{i, j} = \frac{\langle {b_i, b_j^*} \rangle}{ \langle {b_ j^*, b_j^*} \rangle} $
 
 __Definition 2:__ A basis $B = {b_1, b_2,...,b_n} \in \mathbb{R}^n$ is a δ-__LLL Reduced Basis__ if the following holds:
 
 - $\forall 1 \le i \le n, j \lt i * |\mu_{i, j}| \le 0.5$
-- $\forall 1 \le i \le n, \delta||b_i^*||^2 \le ||\mu_{i+1, i}*b_i^* + b_{i+1}^*||^2$
+- $\forall 1 \le i \le n, \delta||b_i^*||^2 \le ||\mu_{i+1, i}* b_i^* + b_{i+1}^*||^2$
 
 We will consider the case $\delta = 0.75$
 
@@ -130,7 +130,7 @@ $\hspace{2cm}$ $b_i \gets b_i - c_{i, j}b_j$, where $c_{i, j} = [\langle{b_i, b_
 
 3. Swap step
 
-$\hspace{1cm}$ __if__ exist $i$ $\ s.t. \ \delta||b_i^*||^2 \gt ||\mu_{i+1, i}*b_i^* + b_{i+1}^*||^2$ __then:__
+$\hspace{1cm}$ __if__ exist $i$ $\ s.t. \ \delta||b_i^*||^2 \gt ||\mu_{i+1, i}* b_i^* + b_{i+1}^*||^2$ __then:__
 
 $\hspace{1.5cm}$ $b_i \leftrightarrow b_{i+1}$
 
@@ -171,7 +171,7 @@ Now we are ready for BKZ Algorithm:
 
 3. $\hspace{1.5cm}$ $j \gets (j \mod (n - 1)) + 1$; $n_j \gets \min \{j + \beta - 1, n\}$; $h \gets \min \{j + \beta, n\}$
 
-4. $\hspace{1.5cm}$ Run an enumeration for $\mathcal{L}(B_{[j, n_j]})$ to find $(\alpha_1, \alpha_2,...,\alpha_{n_j}) \in \mathbb{Z}^{n_j - j + 1}$ and compute $\bf{b} = \sum_{i=j}^{n_j} \alpha_i \bf{b}_i$ such that $||\pi_i(\bf{b})|| = \lambda_1(\mathcal{L}(B_{[j, n_j]}))$
+4. $\hspace{1.5cm}$ Run an enumeration for $\mathcal{L}(B_{[j, n_j]})$ to find $(\alpha_1, \alpha_2,...,\alpha_{n_j}) \in \mathbb{Z}^{n_j - j + 1}$ and compute $\bf{b} = \sum_{i=j}^{n_j} \alpha_i \bf{b}_ i$ such that $||\pi_i(\bf{b})|| = \lambda_1(\mathcal{L}(B_{[j, n_j]}))$
 
 5. $\hspace{1.5cm}$ If $||\bf{b}_j^*||^2 > \delta * ||\pi_j({\bf{b}})||^2$ then: 
 
