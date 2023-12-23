@@ -1,58 +1,27 @@
-#Source: https://11dimensions.moe/archives/267
+from pwn import *
+from arorage import attack
 
-from sage.all import *
-from tqdm import tqdm
+target = process(["python3", "example.py"])
+for _ in range(4):
+    target.recvline()
 
-q = 127
-n = 20
-r = 5
+def get_sample():
+    for _ in range(3):
+        target.recvline()
+    target.sendline(b"Q")
+    samples = []
+    for _ in range(12):
+        recv = target.recvline().decode().split(": ")[1]
+        samples.append(eval(recv))
+    return samples
 
-def enc(z):
-    for con, mon in z:
-        return (con, mon.degrees())
+A = []
+b = []
+while len(b) < 2002:
+    for sample in get_sample():
+        A.append(sample[0])
+        b.append(sample[1])
 
-def dec(p, l):
-    cons, degs = p
-    for i, j in zip(degs, l):
-        if i != 0:
-            cons *= F(j)**i
-    return cons
-
-F = GF(q)
-Q = F[','.join([f'a{i}' for i in range(n)] + ['b'])]
-aas = vector(Q.gens()[:-1])
-bb = Q.gens()[-1]
-T = Q[','.join([f'x{i}' for i in range(n)] + ['e'])]
-g = vector(T.gens()[:-1])
-ee = T.gens()[-1]
-y = prod(1 + sum(g) + ee for _ in range(r)).monomials()
-ff = prod(bb - aas * g - ee for _ in range(r))
-pat = [ff.monomial_coefficient(z) for z in y]
-
-ppat = [enc(p) for p in pat]
-test = set(deg for _, deg in ppat)
-print(len(y))
-
-inss = []
-with open('data.txt', 'r') as f:
-    for line in f.readlines():
-        _, ins = line.split(':')
-        ins = eval(ins)
-        inss.append(ins)
-
-m = len(y)
-
-cs = []
-
-for i in tqdm(range(m)):
-    a, b = inss[i]
-    a.append(b)
-    cs.append([dec(p, a) for p in ppat])
-
-cs = matrix(cs)
-A = cs.right_kernel_matrix()
-
-v = vector(A)
-v /= v[-1]
-
-print(''.join(chr(i) for i in v[-2 - n:-2]))
+E = list(range(5))
+s = attack(127, A, b, E)
+print("CCTF{" + bytes(s).decode() + "}")
