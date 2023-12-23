@@ -1,11 +1,13 @@
 #From CryptoCTF 2021 - Lower
+#With a little change
 
 #!/usr/bin/env python3
 
 from Crypto.Util.number import *
 import sys
-from flag import flag
+#from flag import flag
 
+flag = "CCTF{Arora-Ge!}"
 flag = flag.lstrip('CCTF{').rstrip('}')
 
 def query(n, X, E, p):
@@ -38,7 +40,8 @@ def main():
 	pr(border*72)
 
 	p = 127
-	E = [getRandomRange(0, p) for _ in range(5)]
+	#E = [getRandomRange(0, p) for _ in range(5)]
+	E = list(range(5))
 	n = len(flag)
 	X = [ord(c) for c in flag]
 
