@@ -36,7 +36,7 @@ def create_potion(ingredients: List[int], amounts: List[int]) -> int:
 
 
 def main():
-    from secret import FLAG
+    FLAG = b"flag{Lattice_Reduction}"
     security_level = 64
     ingredients_count = 12
     random = Random.create(security_level)
