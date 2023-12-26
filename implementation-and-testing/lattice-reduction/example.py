@@ -1,57 +1,55 @@
-#From Aero CTF 2020 - Magic II
-#!/usr/bin/env python3.7
+from sage.all import *
+import json
 
-from typing import List
-from random import getrandbits
-from operator import ior, mul
-from functools import reduce
-from itertools import starmap
+FLAG = b"crypto{Lattice-Reduction-Attack}"
+assert len(FLAG) == 32
+# dimension
+n = 64
+# plaintext modulus
+p = 257
+# ciphertext modulus
+q = 1048583
 
-
-class Random(object):
-    def __init__(self, seed: int, size: int=None):
-        self._size = size or seed.bit_length()
-        self._state = seed
-        return
-
-    def randint(self, bitsize: int) -> int:
-        return reduce(ior, (self._getbit() << i for i in range(bitsize)))
-
-    @classmethod
-    def create(cls, size: int) -> 'Random':
-        seed = getrandbits(size)
-        return cls(seed, size)
-        
-    def _getbit(self) -> int:
-        buffer = 2 * self._state | self._state >> (self._size - 1) | self._state << (self._size + 1)
-        self._state = reduce(ior, ((buffer >> i & 7 in [1, 2, 3, 4]) << i for i in range(self._size)))
-        return self._state & 1
+V = VectorSpace(GF(q), n)
+S = V.random_element()
 
 
-def create_potion(ingredients: List[int], amounts: List[int]) -> int:
-    magic_constant = 1046961993706256953070441
-    effect = sum(starmap(mul, zip(ingredients, amounts)))
-    side_effect = getrandbits(13) ^ getrandbits(37)
-    return (effect + side_effect) % magic_constant
+def encrypt(m):
+    A = V.random_element()
+    e = randint(-1, 1)
+    b = A * S + m + p * e
+    return A, b
 
+def challenge(your_input):
+    if 'option' not in your_input:
+        return {"error": "You must specify an option"}
 
-def main():
-    FLAG = b"flag{Lattice_Reduction}"
-    security_level = 64
-    ingredients_count = 12
-    random = Random.create(security_level)
-    potions_count = int.from_bytes(FLAG, 'big') ^ random.randint(512)
-    print(f'There are {potions_count} famous potions in the world. We are trying to create something new!')
-    ingredients = [random.randint(security_level) for _ in range(ingredients_count)]
-    while True:
-        amounts = [getrandbits(41) for _ in range(len(ingredients))]
-        effect = create_potion(ingredients, amounts)
-        print(f'A potion with {amounts} amounts of ingregients has {effect} value of effect.')
-        choice = input('Would you like to create another potion? (y/n): ')
-        if not choice.lower().startswith('y'):
-            break
-    return
+    if your_input["option"] == "get_flag":
+        if "index" not in your_input:
+            return {"error": "You must provide an index"}
+            
 
+        index = int(your_input["index"])
+        if index < 0 or index >= len(FLAG) :
+            return {"error": f"index must be between 0 and {len(FLAG) - 1}"}
 
-if __name__ == '__main__':
-    main()
+        A, b = encrypt(FLAG[index])
+        return {"A": str(list(A)), "b": str(int(b))}
+
+    elif your_input["option"] == "encrypt":
+        if "message" not in your_input:
+            return {"error": "You must provide a message"}
+
+        message = int(your_input["message"])
+        if message < 0 or message >= p:
+            return {"error": f"message must be between 0 and {p - 1}"}
+
+        A, b = encrypt(message)
+        return {"A": str(list(A)), "b": str(int(b))}
+
+    return {"error": "Unknown action"}
+
+print("Would you like to encrypt your own message, or see an encryption of a character in the flag?")
+while True:
+    action = json.loads(input())
+    print(challenge(action))
