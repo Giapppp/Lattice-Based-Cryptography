@@ -17,11 +17,16 @@ def get_sample():
 
 A = []
 b = []
+print("[+] Get sample...")
 while len(b) < 2002:
     for sample in get_sample():
         A.append(sample[0])
         b.append(sample[1])
 
+print("[+] Done!")
+
 E = list(range(5))
+
+print("[+] Attack...")
 s = attack(127, A, b, E)
-print("CCTF{" + bytes(s).decode() + "}")
+print("[+] Find: CCTF{" + bytes(s).decode() + "}")
