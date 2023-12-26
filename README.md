@@ -173,9 +173,7 @@ Given samples $\textbf{(A, b)}$:
     - If $\textbf{b}$ is uniformly random, so is $\textbf{⟨x, b⟩}$.
     - If $\textbf{b = As + e}$, then $\textbf{⟨x, b⟩ = ⟨x · A, s⟩ + ⟨x, e⟩ ≡ ⟨x, e⟩} \mod q$. If $\textbf{x}$ is sufficiently short, then $\textbf{⟨x, e⟩}$ will also be short, since $\textbf{e}$ is also small.
 
-The distinguishing attack can also be used to recover the secret. Given an LWE instance $\textbf{(A, b = As + e)}$ with matrix $\textbf{A} \in \mathbb{Z}^{m \times n}$, we suppose that $\mathcal{X}_e$ and $\mathcal{X}_s$ are supported on small values with high probability. We find many short vectors $\textbf{x} \in \mathbb{Z}_q^m$ such that $\textbf{y = xA} \in \mathbb{Z}_q^n$ are also short, and calculate the list of value $(\textbf{xb})$. For an LWE pair, we have $\textbf{xb = ys + xe}$ which are approximately distributed according to a modular Gaussian distribution. Given sufficiently many samples, we can distinguish between the two distributions.
-
-In order to perform a key recovery attack, we partition $\textbf{s}$ into two components: $\textbf{s} = (\textbf{s}_1 \ | \ \textbf{s}_2)$. We partition the matrix $\textbf{A}$ analogously: $\textbf{A} = (\textbf{A}_1 \ | \ \textbf{A}_2)$, so that $$\textbf{b} = \textbf{As + e} = \textbf{A}_1 \textbf{s}_1 +  \textbf{A}_2 \textbf{s}_2 + \textbf{e}$$
+The distinguishing attack can also be used to recover the secret. Given an LWE instance $\textbf{(A, b = As + e)}$ with matrix $\textbf{A} \in \mathbb{Z}^{m \times n}$. In order to perform a key recovery attack, we partition $\textbf{s}$ into two components: $\textbf{s} = (\textbf{s}_1 \ | \ \textbf{s}_2)$. We partition the matrix $\textbf{A}$ analogously: $\textbf{A} = (\textbf{A}_1 \ | \ \textbf{A}_2)$, so that $$\textbf{b} = \textbf{As + e} = \textbf{A}_1 \textbf{s}_1 +  \textbf{A}_2 \textbf{s}_2 + \textbf{e}$$
 
 If $\textbf{s}_1$ were known, we could create a new LWE problem $$\textbf{b}' = \textbf{A}_2 \textbf{s}_2 + \textbf{e}$$
 
@@ -201,7 +199,7 @@ Where $\textbf{b}' = \textbf{b} - \textbf{A}_1 \textbf{s}_1$. However, $\textbf{
 | Python 3.x | Use to solve some CTF challenges related to LWE, using some techniques below
 | [BKW-Algorithm](https://github.com/AaronHall4/BKW-Algorithm) | An implementation of the Blum-Kalai-Wasserman algorithm for solving the Learning with Errors problem.
 
-### Deployment
+## Deployment
 
 Lattice-based cryptography is regarded as the rival to a quantum computer attack and the future of post-quantum cryptography. So, cryptographic protocols based on lattices have a variety of benefits, such as security, efficiency, lower energy consumption, and speed
 
@@ -214,7 +212,7 @@ Some selected schemes for the purpose of key exchange, based on LWE problem:
 - NewHope [15] is based on the ring learning with errors (RLWE) problem.
 
 
-### Reference
+## Reference
 
 [1]. Wikipedia
 
@@ -254,3 +252,4 @@ Some selected schemes for the purpose of key exchange, based on LWE problem:
 [18]. Martin R. Albrecht, Rachel Player and Sam Scott. On the concrete hardness of Learning with Errors. Journal of Mathematical Cryptology. Volume 9, Issue 3, Pages 169–203, ISSN (Online) 1862-2984, ISSN (Print) 1862-2976 DOI: 10.1515/jmc-2015-0016, October 2015
 
 [19]. https://www.maths.ox.ac.uk/system/files/attachments/lattice-reduction-and-attacks.pdf
+
