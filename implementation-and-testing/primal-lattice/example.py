@@ -1,45 +1,57 @@
-#From TSGCTF 2022 - Learning with Exploitation
+from sage.all import *
+import json
 
-from sage.stats.distributions.discrete_gaussian_integer import DiscreteGaussianDistributionIntegerSampler
-from sage.crypto.lwe import LWE, samples
-from sage.misc.prandom import randrange
 
-p = 0xfffffffffffffffffffffffffffffffeffffffffffffffff
-F = GF(p)
-d = 100
-n = 10
-q = p // (2 ** 64)
-D = DiscreteGaussianDistributionIntegerSampler(q // d // 6) # six sigma
+FLAG = b"crypto{_Primal-Lattice-Attack!_}"
+assert len(FLAG) == 32
+# dimension
+n = 64
+# plaintext modulus
+p = 257
+# ciphertext modulus
+q = 1048583
+delta = int(round(q/p))
 
-lwe = LWE(n=n, q=p, D=D)
+V = VectorSpace(GF(q), n)
+S = V.random_element()
 
-public_key = list(zip(*samples(m=d, n=n, lwe=lwe)))
-private_key = lwe._LWE__s
 
-def encrypt(m, public_key):
-  A, T = public_key
-  r = vector([F(randrange(2)) for _ in range(d)])
-  U = r * matrix(A)
-  v = r * vector(T) + m * q
-  return U, v
+def encrypt(m):
+    A = V.random_element()
+    e = randint(-1, 1)
+    b = A * S + delta * m + e
+    return A, b
 
-def decrypt(c, private_key):
-  U, v = c
-  return int(v - U * private_key + q // 2) // q
+def challenge(your_input):
+    if 'option' not in your_input:
+        return {"error": "You must specify an option"}
 
-with open('flag.txt', 'rb') as f:
-  flag = f.read()
-assert(len(flag) == 64)
+    if your_input["option"] == "get_flag":
+        if "index" not in your_input:
+            return {"error": "You must provide an index"}
+            
 
-print(f'{public_key = }')
+        index = int(your_input["index"])
+        if index < 0 or index >= len(FLAG) :
+            return {"error": f"index must be between 0 and {len(FLAG) - 1}"}
 
-ciphertext = []
-for i in range(0, 64, 8):
-  m = int.from_bytes(flag[i:i+8], 'big')
-  c = encrypt(m, public_key)
+        A, b = encrypt(FLAG[index])
+        return {"A": str(list(A)), "b": str(int(b))}
 
-  assert(decrypt(c, private_key) == m)
+    elif your_input["option"] == "encrypt":
+        if "message" not in your_input:
+            return {"error": "You must provide a message"}
 
-  ciphertext.append(c)
+        message = int(your_input["message"])
+        if message < 0 or message >= p:
+            return {"error": f"message must be between 0 and {p - 1}"}
 
-print(f'{ciphertext = }')
+        A, b = encrypt(message)
+        return {"A": str(list(A)), "b": str(int(b))}
+
+    return {"error": "Unknown action"}
+
+print("Would you like to encrypt your own message, or see an encryption of a character in the flag?")
+while True:
+    action = json.loads(input())
+    print(challenge(action))
