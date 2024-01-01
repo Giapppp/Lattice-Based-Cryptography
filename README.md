@@ -161,23 +161,6 @@ The vector $\bf{v = (e \ | \ s \ | \ 1)}$ is a short vector in lattice
 
 (3). The Bai-Galbraith embedding improves dual embedding for such LWE instance that secret and error are chosen from different distributions, its core idea is to balance the size of the error and the secret. Specially, the short vector in lattice $\mathcal{L}_D$ can be re-balanced as $\textbf{v} = (\textbf{e} \ | \ \omega \textbf{s} \ | \ \omega)$ with scaling factor $\omega = {\sigma_e \over \sigma_s}$ and the new embedding lattice is: $$\mathcal{L}_\omega=\{\textbf{x} \in \mathbb{Z}^{m+n+1}: (\textbf{I}_m|{1 \over \omega}\textbf{A}| - {1 \over \omega}\textbf{b})\textbf{x = 0} \mod q\},$$
 
-#### Dual attack 
-
-The dual attack[11][12], which is a distinguishing attack, can be use for solving __Decision LWE__ problem by this strategy:
-Given samples $\textbf{(A, b)}$:
-    
-1. Find many short vectors $\textbf{x}$ such that $\textbf{y = xA}$ are also short
-2. Compute $⟨\mathbf{x, b}⟩$.
-
-- Either $\textbf{b = As + e}$ or $\textbf{b}$ uniformly random:
-    - If $\textbf{b}$ is uniformly random, so is $\textbf{⟨x, b⟩}$.
-    - If $\textbf{b = As + e}$, then $\textbf{⟨x, b⟩ = ⟨x · A, s⟩ + ⟨x, e⟩ ≡ ⟨x, e⟩} \mod q$. If $\textbf{x}$ is sufficiently short, then $\textbf{⟨x, e⟩}$ will also be short, since $\textbf{e}$ is also small.
-
-The distinguishing attack can also be used to recover the secret. Given an LWE instance $\textbf{(A, b = As + e)}$ with matrix $\textbf{A} \in \mathbb{Z}^{m \times n}$. In order to perform a key recovery attack, we partition $\textbf{s}$ into two components: $\textbf{s} = (\textbf{s}_1 \ | \ \textbf{s}_2)$. We partition the matrix $\textbf{A}$ analogously: $\textbf{A} = (\textbf{A}_1 \ | \ \textbf{A}_2)$, so that $$\textbf{b} = \textbf{As + e} = \textbf{A}_1 \textbf{s}_1 +  \textbf{A}_2 \textbf{s}_2 + \textbf{e}$$
-
-If $\textbf{s}_1$ were known, we could create a new LWE problem $$\textbf{b}' = \textbf{A}_2 \textbf{s}_2 + \textbf{e}$$
-
-Where $\textbf{b}' = \textbf{b} - \textbf{A}_1 \textbf{s}_1$. However, $\textbf{s}_1$ is unknown. Nonetheless, we may enumerate over $\textbf{s}_1$ and use the distinguishing attack on the pairs $(\textbf{A}_2, \textbf{b} - \textbf{A}_1 \textbf{s}_1')$ for every guess $\textbf{s}_1'$ of $\textbf{s}_1$ to determine the correct one for which the pairs come from an LWE distribution. In the standard attack, $\textbf{s}_1$ consists of a single coordinate of $s$
 
 #### Summary
 
@@ -187,17 +170,15 @@ Where $\textbf{b}' = \textbf{b} - \textbf{A}_1 \textbf{s}_1$. However, $\textbf{
 | Blum-Kalai-Wasserman     | $m \lt q^{n/\log(q/B)}$ [2]    |
 | Lattice Reduction      | $m = poly(n, \log q)$ and $q/B = \varOmega(2^n)$ and $poly(n, \log q)$ time   [2]  |
 | Primal Attack   | $\sigma \sqrt{b} \le \sigma_0^{2b - d}.Vol(B)^{1 \over d}$ [19]   |
-| Dual attack     |  $\mathcal{X}_e$ and $\mathcal{X}_s$ are small   |
 
 ## Implementation and Testing
-
-
 
 | Tool and resources | Description |
 | -------- | -------- |
 | [lwe-estimator](https://github.com/malb/lattice-estimator/)     | Estimating the concrete security of Learning with Errors instances     |
 | Python 3.x | Use to solve some CTF challenges related to LWE, using some techniques below
 | [BKW-Algorithm](https://github.com/AaronHall4/BKW-Algorithm) | An implementation of the Blum-Kalai-Wasserman algorithm for solving the Learning with Errors problem.
+All scripts can be found at [this](https://github.com/Giapppp/Lattice-Based-Cryptography)
 
 ## Deployment
 
