@@ -178,6 +178,7 @@ The vector $\bf{v = (e \ | \ s \ | \ 1)}$ is a short vector in lattice
 | [lwe-estimator](https://github.com/malb/lattice-estimator/)     | Estimating the concrete security of Learning with Errors instances     |
 | Python 3.x | Use to solve some CTF challenges related to LWE, using some techniques below
 | [BKW-Algorithm](https://github.com/AaronHall4/BKW-Algorithm) | An implementation of the Blum-Kalai-Wasserman algorithm for solving the Learning with Errors problem.
+
 All scripts can be found at [this](https://github.com/Giapppp/Lattice-Based-Cryptography)
 
 ## Deployment
