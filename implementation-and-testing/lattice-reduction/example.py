@@ -9,6 +9,7 @@ n = 64
 p = 257
 # ciphertext modulus
 q = 1048583
+delta = int(round(q/p))
 
 V = VectorSpace(GF(q), n)
 S = V.random_element()
@@ -17,7 +18,7 @@ S = V.random_element()
 def encrypt(m):
     A = V.random_element()
     e = randint(-1, 1)
-    b = A * S + m + p * e
+    b = A * S + delta * m + e
     return A, b
 
 def challenge(your_input):
