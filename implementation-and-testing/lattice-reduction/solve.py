@@ -11,6 +11,7 @@ n = 64
 p = 257
 # ciphertext modulus
 q = 1048583
+delta = int(round(q/p))
 
 flen = 32
 target = process(["python3", "example.py"])
@@ -45,21 +46,18 @@ for idx in tqdm(range(flen)):
 
 As = []
 bs = []
-sample = 90
-for _ in tqdm(range(sample)):
+samples = 90
+for _ in tqdm(range(samples)):
     data = oracle_2(int(0))
     As += [json.loads(data["A"])]
     bs += [int(data["b"])]
 
-p_ = pow(p, -1, q)
-bs = [(b*p_)%q for b in bs]
-
-A = Matrix(ZZ, n + sample, sample)
-for i in range(sample):
+A = Matrix(ZZ, n + samples, samples)
+for i in range(samples):
   A[i, i] = q
-for x in range(sample):
+for x in range(samples):
   for y in range(n):
-    A[sample + y, x] = (As[x][y] * p_) % q
+    A[samples + y, x] = (As[x][y]) % q
 lattice = IntegerLattice(A, lll_reduce=True)
 print("LLL done")
 gram = lattice.reduced_basis.gram_schmidt()[0]
@@ -67,9 +65,9 @@ target = vector(ZZ, bs)
 res = Babai_closest_vector(lattice.reduced_basis, gram, target)
 print("Closest Vector: {}".format(res))
 
-for x in range(sample):
+for x in range(samples):
   for y in range(n):
-    As[x][y] = (As[x][y] * p_) % q
+    As[x][y] = (As[x][y]) % q
 
 R = IntegerModRing(q)
 M = Matrix(R, As)
@@ -80,8 +78,7 @@ flag = []
 for idx in range(flen):
     A_ = vector(K, flag_As[idx])
     b_ = K(flag_bs[idx])
-    x = int(b_ - S * A_) % q
-    x = x if x < q//2 else x - q
-    flag += [x%p]
+    x = int(b_ - S * A_)
+    flag += [int(round(x/delta))]
 
 print(bytes(flag))
